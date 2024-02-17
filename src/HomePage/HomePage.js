@@ -1,6 +1,88 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Chart from 'chart.js';
+import * as d3 from 'd3';
+import axios from 'axios';
 
 function HomePage() {
+    const [budgetData, setBudgetData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/budget');
+                console.log('Response: ', response);
+                setBudgetData(response.data.myBudget);
+            } catch (error) {
+                console.error('Error fetching budget data 2:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (budgetData) {
+            // Extract data for the ChartJS chart
+            const labels = budgetData.map(item => item.title);
+            const values = budgetData.map(item => item.budget);
+
+            // Create the ChartJS pie chart
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#2020d4', '#23d420', '#d42020', '#cbd420', '#7720d4',
+                            '#ce20d4', '#20d49e', '#20d4bf', '#d42089', '#d4b020'
+                        ],
+                    }]
+                }
+            });
+
+            // Extract data for the D3.js chart
+            const data = values;
+
+            // Check if the D3JS chart already exists before rendering
+            if (!document.getElementById('donutChart').getElementsByTagName('svg').length) {
+                // Create the donut chart using D3.js
+                const width = 400;
+                const height = 400;
+                const radius = Math.min(width, height) / 2;
+                const color = d3.scaleOrdinal().range([
+                    '#2020d4', '#23d420', '#d42020', '#cbd420', '#7720d4',
+                    '#ce20d4', '#20d49e', '#20d4bf', '#d42089', '#d4b020'
+                ]);
+
+                const svg = d3.select('#donutChart')
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .append('g')
+                    .attr('transform', `translate(${width / 2},${height / 2})`);
+
+                const arc = d3.arc()
+                    .innerRadius(radius * 0.5)
+                    .outerRadius(radius * 0.8);
+
+                const pie = d3.pie()
+                    .value(d => d)
+                    .sort(null);
+
+                const arcs = svg.selectAll('arc')
+                    .data(pie(data))
+                    .enter()
+                    .append('g')
+                    .attr('class', 'arc');
+
+                arcs.append('path')
+                    .attr('d', arc)
+                    .attr('fill', (d, i) => color(i));
+            }
+        }
+    }, [budgetData]);
+
   return (
     <main className="container center">
 
@@ -68,7 +150,6 @@ function HomePage() {
         <article className="graph-box">
             <h1 className="center">Budget Donut Chart</h1>
             <div id="donutChart"></div>
-            <div><p id="center-text"></p></div>
         </article>
     </section>
 
