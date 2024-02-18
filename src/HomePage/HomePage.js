@@ -126,19 +126,6 @@ function HomePage() {
             <p>
                 Become a financial ninja! Many apps offer educational resources and insights, helping you understand financial concepts, make informed decisions, and avoid money traps. Learn and earn, one swipe at a time.                </p>
         </article>
-
-        <article className="text-box">
-            <h1>Financial Goals</h1>
-            <p>
-                Define short-term and long-term financial goals as part of your budgeting process. Whether it's saving for a down payment on a house, paying off student loans, or planning for retirement, having specific and measurable goals provides motivation and direction for your budget. Adjust your budget to align with your financial priorities.</p>
-        </article>
-
-        <article className="text-box">
-            <h1>Decision Making Skills</h1>
-            <p>
-                Financial knowledge and decision-making skills help people make informed financial decisions through problem-solving, critical thinking, and an understanding of key financial facts and concepts. Financial knowledge and decision-making skills help people make informed financial decisions through problem-solving, critical thinking, and an understanding of key financial facts and concepts.
-            </p>
-        </article>
         
         {/* Pie Chart from ChartJS */}
         <article className="graph-box">
