@@ -412,6 +412,8 @@ header.hero h1,
 header.hero h2 {
   text-align: center;
   margin: 0;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 header.hero h1 {
@@ -474,11 +476,21 @@ footer.bottom {
   margin: 20px;
 }
 
+/* Donut Chart Styling */
 #donutChart {
   position: relative;
 }
 
-h1 {
+#donutTooltip {
+  text-align: center;
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.3em;
+}
+
+h1{
   letter-spacing: 1px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -489,6 +501,10 @@ h1 {
   }
 }
 
+
+
+
+
  /* ------- LOGIN PAGE ------*/
 
 .login-container {
@@ -496,13 +512,17 @@ h1 {
   margin: 10px auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #4d5791;
+  color: white;
 }
 
 .login-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
 }
 
 .form-group {
@@ -514,7 +534,8 @@ label {
   display: block;
   margin-bottom: 5px;
   font-size: 15px;
-
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 input[type="text"],
@@ -529,17 +550,24 @@ input[type="password"] {
 button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #b4c6f0;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
   background-color: #0056b3;
 }
+
+
+
+
 
 /* --- ABOUT PAGE --- */
 
@@ -549,10 +577,12 @@ button:hover {
   padding: 20px;
 }
 
-.about-container h2 {
+.about-container h2, h3 {
   font-size: 2.2em;
   font-weight: bold;
   margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .about-container p {
@@ -562,6 +592,7 @@ button:hover {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .about-container ul {
@@ -582,12 +613,5 @@ button:hover {
 
 .about-container ul li:hover {
   background-color: #e0e0e0;
-}
-
-.about-container h3 {
-  font-size: 2.2em;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 10px;
 }
 

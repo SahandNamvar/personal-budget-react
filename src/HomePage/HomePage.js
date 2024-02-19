@@ -24,7 +24,13 @@ function HomePage() {
         if (budgetData) {
             // Extract data for the ChartJS chart
             const labels = budgetData.map(item => item.title);
+            console.log("Labels:", labels);
+            
             const values = budgetData.map(item => item.budget);
+            console.log("Values:", values);
+            
+            const background_color = ['#2020d4', '#23d420', '#d42020', '#cbd420', '#7720d4',
+            '#ce20d4', '#20d49e', '#20d4bf', '#d42089', '#d4b020'];
 
             // Create the ChartJS pie chart
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -34,15 +40,16 @@ function HomePage() {
                     labels: labels,
                     datasets: [{
                         data: values,
-                        backgroundColor: ['#2020d4', '#23d420', '#d42020', '#cbd420', '#7720d4',
-                            '#ce20d4', '#20d49e', '#20d4bf', '#d42089', '#d4b020'
-                        ],
+                        backgroundColor: background_color,
                     }]
                 }
             });
 
             // Extract data for the D3.js chart
-            const data = values;
+            const data = budgetData.map(item => ({
+                label: item.title,
+                value: item.budget
+            }));
 
             // Check if the D3JS chart already exists before rendering
             if (!document.getElementById('donutChart').getElementsByTagName('svg').length) {
@@ -50,10 +57,7 @@ function HomePage() {
                 const width = 400;
                 const height = 400;
                 const radius = Math.min(width, height) / 2;
-                const color = d3.scaleOrdinal().range([
-                    '#2020d4', '#23d420', '#d42020', '#cbd420', '#7720d4',
-                    '#ce20d4', '#20d49e', '#20d4bf', '#d42089', '#d4b020'
-                ]);
+                const color = d3.scaleOrdinal().range(background_color);
 
                 const svg = d3.select('#donutChart')
                     .append('svg')
@@ -67,7 +71,7 @@ function HomePage() {
                     .outerRadius(radius * 0.8);
 
                 const pie = d3.pie()
-                    .value(d => d)
+                    .value(d => d.value)
                     .sort(null);
 
                 const arcs = svg.selectAll('arc')
@@ -75,6 +79,27 @@ function HomePage() {
                     .enter()
                     .append('g')
                     .attr('class', 'arc');
+
+                // Select the tooltip paragraph element
+                const tooltipParagraph = d3.select('#donutTooltip');
+
+                // Append hover event to arcs
+                arcs.on('mouseover', function(d, i) {
+                    const value = d.data.value;
+                    const label = d.data.label;
+                    const segmentColor = background_color[i];
+                    // Update the content & style of the tooltip paragraph
+                    tooltipParagraph.text(`${label}: ${'$' + value}`);
+                    tooltipParagraph.style('background-color', segmentColor);
+                    tooltipParagraph.style('color', 'white');
+                })
+
+                .on('mouseout', function() {
+                    // Clear the content of the tooltip paragraph when mouse leaves and reset to default style
+                    tooltipParagraph.text('Hover over a segment to see details');
+                    tooltipParagraph.style('background-color', 'white');
+                    tooltipParagraph.style('color', 'black');
+                });
 
                 arcs.append('path')
                     .attr('d', arc)
@@ -136,7 +161,9 @@ function HomePage() {
         {/* Donut Chart from D3JS*/}
         <article className="graph-box">
             <h1 className="center">Budget Donut Chart</h1>
-            <div id="donutChart"></div>
+            <div id="donutChart">
+                <p id="donutTooltip">Hover over a segment to see details</p>
+            </div>
         </article>
     </section>
 
